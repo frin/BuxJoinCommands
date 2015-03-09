@@ -1,10 +1,28 @@
 package us.frin.buxjoincommands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+class ExecuteCommand implements Runnable {
+	BuxJoinCommands plugin;
+	Player player;
+	
+	public ExecuteCommand(Player player, BuxJoinCommands plugin) {
+		this.player = player;
+		this.plugin = plugin;
+	}
+	
+	@Override
+	public void run() {
+		for (String s : this.plugin.commands) {
+			this.player.performCommand(s);
+		}
+	}
+}
 
 public class BuxJoinCommandsListener implements Listener {
 		BuxJoinCommands plugin;
@@ -13,12 +31,12 @@ public class BuxJoinCommandsListener implements Listener {
 			this.plugin = plugin;
 		}
 		
-		@EventHandler // EventPriority.NORMAL by default
+		@EventHandler //(priority = EventPriority.MONITOR)
 		public void onPlayerJoin(PlayerJoinEvent evt) {
 			Player player = evt.getPlayer(); // The player who joined
-			for (String s : this.plugin.commands) {
-				player.performCommand(s);
-			}
+			
+			ExecuteCommand ec = new ExecuteCommand(player, this.plugin);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, ec, 0);
 		}
 		
 		@EventHandler // EventPriority.NORMAL by default
