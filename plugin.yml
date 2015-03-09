@@ -1,0 +1,10 @@
+name: BuxJoinCommands
+main: us.frin.buxjoincommands.BuxJoinCommands
+version: 1.0
+
+commands:
+  joincommands:
+    description: BuxJoinCommands Usage
+    usage: /joincommands
+    permission: buxjoincommands.admin
+    permission-message: You don't have permission to use Join Commands!

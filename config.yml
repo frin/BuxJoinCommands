@@ -1,0 +1,5 @@
+# default config.yml
+commands:
+  - say test
+  - list
+  - help
